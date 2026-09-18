@@ -20,7 +20,7 @@ directly from their papers, with the citation carried in the code, the
 
 | Bundle | Model | Inputs → Outputs |
 |---|---|---|
-| [`labor-productivity/`](./labor-productivity) | Outdoor-worker physical work capacity lost to heat, and what it costs | a `thermal-indices` daily table (WBGT per city per day) → per city per day: work capacity lost under a selected exposure-response function, labour hours lost and dollars of lost labour from a committed BLS workforce and wage table, plus the sampled damage curve |
+| [`labor-productivity/`](./labor-productivity) | Heat Damage to Outdoor Work: what a day's heat costs the people who work outside | a `thermal-indices` daily table (peak WBGT per city per day) + optional settings -> per city per day: work capacity lost under a selected published damage curve, plus labour hours lost and dollars of lost labour from a committed BLS workforce and wage table; and the damage curve itself, sampled for plotting |
 
 ## Quick start
 

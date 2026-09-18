@@ -138,14 +138,108 @@ implementation land together in one pull request:
 Repo-wide conventions live in this file; briefs reference them rather than
 restating them.
 
+## The `labor-productivity/` bundle
+
+**Heat Damage to Outdoor Work.** Given a `thermal-indices` `heat_indices` table,
+it evaluates a published exposure-response function at each row's daily peak
+WBGT and values the lost capacity against a committed BLS workforce and wage
+table. Brief: `docs/features/0001-labor-productivity.md`; plan with every
+decision and its reasoning: `docs/plans/0001-labor-productivity.md`. User-facing
+documentation: [`labor-productivity/README.md`](./labor-productivity/README.md).
+
+```
+labor-productivity/
+  Modelfile.toml            two inputs, two JSON outputs; semantic annotations
+  Dockerfile                python:3.12-slim, no pip layer at all
+  runner.py                 the model
+  erf.py                    the damage curves, each with its citation
+  check_erf.py              validation: curves, table, outputs
+  build_bls_table.py        one-time BLS build (not in the image)
+  bls_labor.csv             per-city workers and wages (committed)
+  sample_heat_indices.json  a real thermal-indices output, 4 cities x 30 days
+  README.md
+```
+
+### Design notes
+
+- **Input named `heat_indices`, matching the upstream output**, so a flow
+  auto-wires with no mapping. It declares as required only the eight columns the
+  model reads, which is the subset rule working for us rather than against us.
+  `heat_summary` is deliberately *not* accepted: its schema declares `today` and
+  `history` untyped, so a mis-wiring would fail mid-run instead of at save time.
+  Verified with the platform's own `check_schema_compatibility`.
+- **A second input, `labor_options`,** carries `erf`, `work_intensity_class` and
+  `assumed_exposed_hours`. It exists because a flow step's input cannot be
+  unbound, and folding the settings into `heat_indices` would make them
+  unreachable in a flow (the file there *is* the upstream artifact). The flow
+  author pastes `{}`. This is the one bit of wiring a user must do by hand.
+- **Two JSON outputs plus an off-platform CSV**, as `thermal-indices` does.
+  `labor_damage` is the stdout redirect; `labor_summary` is the
+  `{output:labor_summary}` arg and carries the sampled `curve`.
+- **Two curves, deliberately dissimilar.** Foster et al. (2021), a laboratory
+  sigmoid, is the default; Dunne, Stouffer and John (2013), a power law over
+  occupational safety thresholds, is the alternate. They disagree by ~46 points
+  at WBGT 34.5, which is the demonstration that the damage function is a
+  substitutable, inspectable choice rather than a hidden constant.
+- **No runtime dependencies.** The work is scalar arithmetic over a committed
+  CSV, so the image has no `pip install` layer. pandas would only be something
+  to drift.
+- **Peak WBGT is the honest limit.** `capacity_loss_pct` is exact for the peak
+  hour; the hours and dollars rest on `assumed_exposed_hours` (default 4). Said
+  plainly in the README, the `validity_domain`, and `metadata.assumptions`.
+
+### Modelfile
+
+Mirrors `thermal-indices`: `run` redirects stdout to
+`run/labor_damage.output.json`, `args = ["{input:heat_indices}",
+"{output:labor_summary}", "{input:labor_options}"]`. Note the annotation length
+caps the validator enforces: `validity_domain` <= 600 characters and
+`provenance` <= 400. Validate from the `modelhome` repo with
+`uv run python -m orchestration.modelfile validate <path>/labor-productivity/Modelfile.toml`
+(currently OK, no warnings).
+
+### Verified results (2026-09-17)
+
+- `check_erf.py`: 20/20 pass. Foster 2021 reproduces its published WBGT curve
+  (87/67/50/44/25 % capacity at 25/30/33.63/35/40 degC) and Dunne 2013 its
+  standards endpoints (100 % at 25 degC, 0 % at 33 degC), both to 0.5 pp.
+- `check_erf.py --output`: 16/16 pass on a real run of the committed sample.
+  One real bug came out of it: dollars were derived from unrounded hours, so the
+  published columns did not reconcile.
+- Sample run (2026-08-15, 4 cities, 120 rows): Phoenix peak WBGT 34.5 degC,
+  54.1 % capacity lost, ~$9.3M; Houston 33.3 degC, 48.6 %, ~$10.3M. No warnings.
+- Docker build and `docker run --network none` in the Modelfile's mounted layout
+  produce rows identical to the local run. The bare default `CMD` works too.
+- `check_erf.py --table`: 7/8 pass. The failing check is city coverage - see
+  below.
+- **Not yet verified:** the Model Home import and the two-node flow (AC-8).
+
+### Task list
+
+1. **Finish the BLS table (AC-6).** It covers 83 of 89 cities. Juneau AK,
+   Frankfort KY, Augusta ME, Concord NH, Montpelier VT and Pierre SD need
+   state-level OEWS figures, which is one more API query than the keyless daily
+   allowance permitted on build day. Rerun `python build_bls_table.py
+   ../../thermofeel-bundles/thermal-indices/cities.json` (everything else is
+   cached), ideally with `BLS_API_KEY` set. The state-level area-code format
+   (`{FIPS}00000`) is the one part of the script the quota stopped us proving.
+2. AC-8: add the model on the local Model Home stack from the branch subfolder
+   URL, run it on the sample, then build the `thermal-indices ->
+   labor-productivity` flow and run it.
+3. Mark the PR ready once 1-2 pass; John merges.
+4. Follow-ups: hourly WBGT upstream (retires `assumed_exposed_hours`), a
+   work-intensity-aware curve, per-occupation wages, and the
+   `heat-mortality/` and `cooling-demand/` siblings.
+
 ## Task list
 
 1. ~~Scaffold the repo: top-level boilerplate and the vendored feat skill.~~
    Done 2026-09-17.
 2. ~~Create `modelhome/heat-damage-bundles` on GitHub and push `main`.~~ Done
    2026-09-17 (public).
-3. `labor-productivity/` (brief 0001): plan written, awaiting John's review.
-   Every decision and its reasoning is in `docs/plans/0001-labor-productivity.md`.
+3. `labor-productivity/` (brief 0001): implemented on
+   `feat/0001-labor-productivity`; see that bundle's task list above for what is
+   left (the BLS table's last six cities, and the Model Home import).
 4. Compose `thermal-indices -> labor-productivity` as a Model Home flow (in the
    platform; there is no Flowfile).
 5. Later siblings: `heat-mortality/`, `cooling-demand/`.

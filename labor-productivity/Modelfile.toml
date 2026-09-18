@@ -1,0 +1,323 @@
+name = "Heat Damage to Outdoor Work"
+description = "What a day's heat costs the people who work outside. Give it a US Daily Heat Stress table and it returns, for every city and every day, the share of physical work capacity an outdoor worker loses to that day's peak heat, and what those lost hours are worth, using construction, farming and grounds-keeping employment and wages from the BLS. The heat-to-capacity curve is a published, citable equation and you can swap it; the output carries the curve it used so you can plot it."
+# Prints the labor_damage table JSON to stdout; the platform redirects it to the
+# output file. The runner writes labor_summary itself, to the path in args.
+run = "docker run --rm -v \"$PWD/run:/run\" ${IMAGE} ${ARGS} > run/labor_damage.output.json"
+image = "modelhome/heat-damage-labor-productivity:latest"
+# Order matters: the runner reads HEAT_INDICES, then where to write the summary,
+# then the optional settings file.
+args = ["{input:heat_indices}", "{output:labor_summary}", "{input:labor_options}"]
+
+# Semantic annotations. Unlike the upstream hazard model, this one is a pure
+# function: no network, no clock beyond the generated_at stamp, no randomness.
+# The same input artifact and the same committed tables always give the same
+# numbers, byte for byte.
+determinism = "deterministic"
+expected_runtime = "seconds"
+validity_domain = "US cities the committed BLS table covers (83 of the 89 the upstream model emits; the others return physiology but no dollars). The driver is the DAILY PEAK WBGT, so capacity figures are peak-hour, not whole-day. Hours and dollars also assume assumed_exposed_hours (default 4) of the workday near that peak, and scale linearly with it. Both curves describe heavy outdoor work (400 W), so work_intensity_class accepts only \"heavy\". foster2021 is fitted over 12-40 degC and rows outside it are flagged in the warnings; dunne2013 is bounded by construction. Dollars are as of the BLS vintage."
+not_for = "Setting anyone's work/rest schedule (use the NIOSH or OSHA guidance and on-site WBGT measurement), official economic statistics, or any claim about an individual employer or worker. The dollar figures are an illustrative estimate of one channel of heat damage, not a measured loss."
+provenance = "Curves implemented from their papers: Foster et al. (2021) Int J Biometeorol 65:1215-1229, doi:10.1007/s00484-021-02105-0; Dunne, Stouffer and John (2013) Nature Climate Change 3:563-566, doi:10.1038/nclimate1827. Employment and wages: BLS OEWS May 2025 (SOC 47-0000, 45-0000, 37-3011). Metro matching: US Census geocoder. Heat input: the US Daily Heat Stress model. Detail in the bundle README."
+
+[resources]
+# A few thousand rows of scalar arithmetic over two committed tables.
+memory = "512Mi"
+cpu = "1"
+
+[[inputs]]
+# Named to match US Daily Heat Stress's `heat_indices` output, so a flow wires the
+# two together with no mapping at all. The schema deliberately declares as
+# required only the columns this model actually reads: the platform checks that
+# the upstream output's required keys are a superset of these, so asking for
+# columns we ignore would break the flow the day upstream drops one.
+name = "heat_indices"
+description = "A US Daily Heat Stress table: one row per city per day, with that day's peak WBGT."
+
+[inputs.schema]
+type = "object"
+required = ["rows"]
+description = "The heat_indices output of the US Daily Heat Stress model, passed straight through by the flow."
+default = { rows = [{ city = "Phoenix", state = "AZ", lat = 33.4484, lon = -112.074, date = "2026-08-15", is_forecast = false, wbgt_c = 34.52, wbgt_simple_c = 30.39 }, { city = "Houston", state = "TX", lat = 29.7633, lon = -95.3633, date = "2026-08-15", is_forecast = false, wbgt_c = 33.33, wbgt_simple_c = 31.14 }] }
+
+[inputs.schema.properties.rows]
+type = "array"
+description = "One object per city and day."
+
+[inputs.schema.properties.rows.items]
+type = "object"
+required = ["city", "state", "lat", "lon", "date", "is_forecast", "wbgt_c", "wbgt_simple_c"]
+description = "One city on one day."
+
+[inputs.schema.properties.rows.items.properties.city]
+type = "string"
+description = "City name."
+
+[inputs.schema.properties.rows.items.properties.state]
+type = "string"
+description = "Two-letter state code. With the city name, this is the key into the built-in workforce table."
+
+[inputs.schema.properties.rows.items.properties.lat]
+type = "number"
+unit = "degrees north"
+description = "Latitude, echoed to the output."
+
+[inputs.schema.properties.rows.items.properties.lon]
+type = "number"
+unit = "degrees east"
+description = "Longitude, echoed to the output."
+
+[inputs.schema.properties.rows.items.properties.date]
+type = "string"
+format = "date"
+description = "The city's local calendar day."
+
+[inputs.schema.properties.rows.items.properties.is_forecast]
+type = "boolean"
+description = "Whether that day's weather was still a forecast upstream. Echoed to the output unchanged."
+
+[inputs.schema.properties.rows.items.properties.wbgt_c]
+type = "number"
+unit = "degC"
+description = "Daily maximum Wet Bulb Globe Temperature (Liljegren). The driver. Can be null, in which case wbgt_simple_c is used instead."
+
+[inputs.schema.properties.rows.items.properties.wbgt_simple_c]
+type = "number"
+unit = "degC"
+description = "Daily maximum simplified WBGT, used only when wbgt_c is null."
+
+[[inputs]]
+# Everything here has a default, so standalone runs can leave the whole object
+# out. In a flow this input has no upstream to come from, so the flow editor
+# needs a value: paste {} to accept the defaults.
+name = "labor_options"
+description = "Which damage curve to use and how much of the workday to count. Paste {} to accept the defaults."
+
+[inputs.schema]
+type = "object"
+required = []
+description = "All three settings are optional. Leave the object empty for the default curve (Foster 2021), heavy outdoor work, and 4 exposed hours a day."
+default = {}
+
+[inputs.schema.properties.erf]
+type = "string"
+description = "Which published heat-to-work-capacity curve to use: \"foster2021\" (default, a laboratory fit) or \"dunne2013\" (occupational safety thresholds, much steeper above 30 degC)."
+
+[inputs.schema.properties.work_intensity_class]
+type = "string"
+description = "How hard the work is. Only \"heavy\" (400 W, construction and agriculture) is available: both curves describe heavy outdoor work and neither is parameterised by effort."
+
+[inputs.schema.properties.assumed_exposed_hours]
+type = "number"
+unit = "h"
+description = "How many hours of the workday are spent near the day's peak heat. Default 4, the afternoon half of an 8-hour shift. This is a modelling assumption, not a measurement, and the hours and dollars scale directly with it."
+
+[[outputs]]
+# One row per city per day: the table a page or a spreadsheet reads.
+name = "labor_damage"
+description = "Work capacity lost and its dollar value, one row per city per day."
+
+[outputs.schema]
+type = "object"
+required = ["metadata", "columns", "rows"]
+description = "The damage table: one row per city per day, in the order the input carried them."
+
+[outputs.schema.properties.metadata]
+type = "object"
+description = "How the run was made: generated_at, the curve used and its citation, the work-intensity class and metabolic rate, assumed_exposed_hours, the BLS source, vintage and SOC codes, the upstream run's stamps, the stated assumptions, and any warnings."
+
+[outputs.schema.properties.columns]
+type = "array"
+description = "Column names, in order. Every row has exactly these keys."
+
+[outputs.schema.properties.rows]
+type = "array"
+description = "One object per city and day."
+
+[outputs.schema.properties.rows.items]
+type = "object"
+required = ["city", "state", "lat", "lon", "date", "is_forecast", "wbgt_c", "wbgt_source", "erf", "work_intensity_class", "assumed_exposed_hours", "work_capacity_pct", "capacity_loss_pct", "labor_risk_category", "exposed_workers", "mean_hourly_wage_usd", "labor_hours_lost", "dollar_loss_usd"]
+
+[outputs.schema.properties.rows.items.properties.city]
+type = "string"
+description = "City name, echoed from the input."
+
+[outputs.schema.properties.rows.items.properties.state]
+type = "string"
+description = "Two-letter state code, echoed from the input."
+
+[outputs.schema.properties.rows.items.properties.lat]
+type = "number"
+unit = "degrees north"
+description = "Latitude, echoed from the input."
+
+[outputs.schema.properties.rows.items.properties.lon]
+type = "number"
+unit = "degrees east"
+description = "Longitude, echoed from the input."
+
+[outputs.schema.properties.rows.items.properties.date]
+type = "string"
+format = "date"
+description = "The city's local calendar day, echoed from the input."
+
+[outputs.schema.properties.rows.items.properties.is_forecast]
+type = "boolean"
+description = "Whether the upstream weather for this day was still a forecast. Echoed, not recomputed."
+
+[outputs.schema.properties.rows.items.properties.wbgt_c]
+type = "number"
+unit = "degC"
+description = "The daily peak WBGT the curve was evaluated at. Null when the input carried neither WBGT column, in which case every value below is null too."
+
+[outputs.schema.properties.rows.items.properties.wbgt_source]
+type = "string"
+description = "Which upstream column supplied wbgt_c: \"liljegren\" normally, \"simple\" where the Liljegren value was missing."
+
+[outputs.schema.properties.rows.items.properties.erf]
+type = "string"
+description = "The exposure-response curve this run used."
+
+[outputs.schema.properties.rows.items.properties.work_intensity_class]
+type = "string"
+description = "The work intensity the curve describes: heavy outdoor work at 400 W."
+
+[outputs.schema.properties.rows.items.properties.assumed_exposed_hours]
+type = "number"
+unit = "h"
+description = "Hours of the workday assumed to be spent near the peak WBGT, as used for this row."
+
+[outputs.schema.properties.rows.items.properties.work_capacity_pct]
+type = "number"
+unit = "%"
+description = "Physical work capacity remaining at the peak WBGT, 0 to 100. Exact for that hour under the chosen curve."
+
+[outputs.schema.properties.rows.items.properties.capacity_loss_pct]
+type = "number"
+unit = "%"
+description = "Physical work capacity lost at the peak WBGT, 0 to 100. The headline physiological number, and the one the dollar estimate is built on."
+
+[outputs.schema.properties.rows.items.properties.labor_risk_category]
+type = "string"
+description = "A reading of capacity_loss_pct for a map legend: safe (under 10%), reduced (10-25%), high (25-50%) or severe (50%+). A presentation band, not a safety standard."
+
+[outputs.schema.properties.rows.items.properties.exposed_workers]
+type = "integer"
+unit = "1"
+description = "Heat-exposed outdoor workers in this city's metro area (construction and extraction, farming, fishing and forestry, and landscaping). Null for cities the built-in table does not cover."
+
+[outputs.schema.properties.rows.items.properties.mean_hourly_wage_usd]
+type = "number"
+unit = "USD/h"
+description = "Employment-weighted mean hourly wage across those occupations. Null for cities the built-in table does not cover."
+
+[outputs.schema.properties.rows.items.properties.labor_hours_lost]
+type = "number"
+unit = "h"
+description = "Estimated work hours lost across the exposed workforce on this day: capacity lost times workers times assumed_exposed_hours. An estimate, because of that last term."
+
+[outputs.schema.properties.rows.items.properties.dollar_loss_usd]
+type = "number"
+unit = "USD"
+description = "Estimated value of those lost hours at the mean wage, as of the BLS table's vintage. An estimate, not a measured loss."
+
+[[outputs]]
+# The same values grouped per city, plus the curve itself, for a map and a chart.
+name = "labor_summary"
+description = "The same values grouped by city, with today, the history, and the damage curve the run used."
+
+[outputs.schema]
+type = "object"
+required = ["generated_at", "date", "erf", "erf_citation", "work_intensity_class", "assumed_exposed_hours", "window_days", "curve", "cities"]
+description = "Per-city view for a map and trend chart, with the exposure-response curve it was computed from."
+
+[outputs.schema.properties.generated_at]
+type = "string"
+format = "date-time"
+description = "When the outputs were written (UTC)."
+
+[outputs.schema.properties.date]
+type = "string"
+format = "date"
+description = "The last day in the window."
+
+[outputs.schema.properties.erf]
+type = "string"
+description = "The exposure-response curve this run used."
+
+[outputs.schema.properties.erf_citation]
+type = "string"
+description = "The full citation for that curve's source paper."
+
+[outputs.schema.properties.erf_summary]
+type = "string"
+description = "One sentence on what the curve is and how it was derived."
+
+[outputs.schema.properties.work_intensity_class]
+type = "string"
+description = "The work intensity the curve describes."
+
+[outputs.schema.properties.assumed_exposed_hours]
+type = "number"
+unit = "h"
+description = "Hours of the workday assumed to be spent near the peak WBGT."
+
+[outputs.schema.properties.bls_vintage]
+type = "string"
+description = "Which BLS release the employment and wage figures come from."
+
+[outputs.schema.properties.window_days]
+type = "integer"
+unit = "d"
+description = "Days of history per city, taken from the input."
+
+[outputs.schema.properties.curve]
+type = "array"
+description = "The exposure-response curve this run used, sampled from 15 to 45 degC WBGT at 0.5 degC steps, so a chart can draw the exact damage function and put each city on it."
+
+[outputs.schema.properties.curve.items]
+type = "object"
+required = ["wbgt_c", "capacity_loss_pct"]
+description = "One point on the curve."
+
+[outputs.schema.properties.curve.items.properties.wbgt_c]
+type = "number"
+unit = "degC"
+description = "WBGT at this point."
+
+[outputs.schema.properties.curve.items.properties.capacity_loss_pct]
+type = "number"
+unit = "%"
+description = "Work capacity lost at that WBGT."
+
+[outputs.schema.properties.cities]
+type = "array"
+description = "One entry per city: city, state, lat, lon, its workforce and wage, today (the newest day) and history (every day in the window, oldest first)."
+
+[outputs.schema.properties.cities.items]
+type = "object"
+required = ["city", "state", "lat", "lon", "today", "history"]
+
+[outputs.schema.properties.cities.items.properties.city]
+type = "string"
+description = "City name."
+
+[outputs.schema.properties.cities.items.properties.state]
+type = "string"
+description = "Two-letter state code."
+
+[outputs.schema.properties.cities.items.properties.lat]
+type = "number"
+unit = "degrees north"
+description = "Latitude."
+
+[outputs.schema.properties.cities.items.properties.lon]
+type = "number"
+unit = "degrees east"
+description = "Longitude."
+
+[outputs.schema.properties.cities.items.properties.today]
+type = "object"
+description = "The newest day's values (the same as the last history entry)."
+
+[outputs.schema.properties.cities.items.properties.history]
+type = "array"
+description = "One entry per day, oldest first, each with the labor_damage columns except city, state, lat and lon."

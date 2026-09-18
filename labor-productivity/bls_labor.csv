@@ -1,0 +1,84 @@
+city,state,msa,exposed_workers,mean_hourly_wage_usd,soc_codes,source,vintage,method
+Phoenix,AZ,"Phoenix-Mesa-Chandler, AZ Metro Area",151940,28.22,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Las Vegas,NV,"Las Vegas-Henderson-North Las Vegas, NV Metro Area",66110,31.09,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Tucson,AZ,"Tucson, AZ Metro Area",18980,25.46,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Sacramento,CA,"Sacramento-Roseville-Folsom, CA Metro Area",67160,33.92,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Fresno,CA,"Fresno, CA Metro Area",52690,23.62,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Bakersfield,CA,"Bakersfield-Delano, CA Metro Area",52070,22.51,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Riverside,CA,"Riverside-San Bernardino-Ontario, CA Metro Area",101490,31.89,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+El Paso,TX,"El Paso, TX Metro Area",12170,21.89,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Albuquerque,NM,"Albuquerque, NM Metro Area",24040,25.64,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Salt Lake City,UT,"Salt Lake City-Murray, UT Metro Area",51460,28.73,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Boise,ID,"Boise City, ID Metro Area",31530,27.29,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Houston,TX,"Houston-Pasadena-The Woodlands, TX Metro Area",198260,26.63,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+San Antonio,TX,"San Antonio-New Braunfels, TX Metro Area",50090,25.22,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Dallas,TX,"Dallas-Fort Worth-Arlington, TX Metro Area",184410,26.1,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Austin,TX,"Austin-Round Rock-San Marcos, TX Metro Area",66520,26.57,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+New Orleans,LA,"New Orleans-Metairie, LA Metro Area",19800,26.4,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Baton Rouge,LA,"Baton Rouge, LA Metro Area",36310,27.21,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Jackson,MS,"Jackson, MS Metro Area",11820,23.52,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Memphis,TN,"Memphis, TN-MS-AR Metro Area",22850,25.76,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Little Rock,AR,"Little Rock-North Little Rock-Conway, AR Metro Area",15830,22.55,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Mobile,AL,"Mobile, AL Metro Area",11010,24.41,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Miami,FL,"Miami-Fort Lauderdale-West Palm Beach, FL Metro Area",135440,26.21,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Tampa,FL,"Tampa-St. Petersburg-Clearwater, FL Metro Area",77400,25.54,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Orlando,FL,"Orlando-Kissimmee-Sanford, FL Metro Area",76080,25.04,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Jacksonville,FL,"Jacksonville, FL Metro Area",43160,25.6,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Savannah,GA,"Savannah, GA Metro Area",7300,25.34,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Charleston,SC,"Charleston-North Charleston, SC Metro Area",18640,26.0,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+New York,NY,"New York-Newark-Jersey City, NY-NJ Metro Area",339000,36.73,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Philadelphia,PA,"Philadelphia-Camden-Wilmington, PA-NJ-DE-MD Metro Area",110390,32.22,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Washington,DC,"Washington-Arlington-Alexandria, DC-VA-MD-WV Metro Area",132290,31.15,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Baltimore,MD,"Baltimore-Columbia-Towson, MD Metro Area",61020,29.11,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Chicago,IL,"Chicago-Naperville-Elgin, IL-IN Metro Area",159460,37.68,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+St. Louis,MO,"St. Louis, MO-IL Metro Area",65360,32.97,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Kansas City,MO,"Kansas City, MO-KS Metro Area",52380,31.52,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Indianapolis,IN,"Indianapolis-Carmel-Greenwood, IN Metro Area",56620,30.6,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Columbus,OH,"Columbus, OH Metro Area",46910,31.37,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Detroit,MI,"Detroit-Warren-Dearborn, MI Metro Area",80930,30.71,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Minneapolis,MN,"Minneapolis-St. Paul-Bloomington, MN-WI Metro Area",88520,35.63,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Fargo,ND,"Fargo, ND-MN Metro Area",9620,30.0,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Bismarck,ND,"Bismarck, ND Metro Area",4300,29.58,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Great Falls,MT,"Great Falls, MT Metro Area",2520,28.6,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Denver,CO,"Denver-Aurora-Centennial, CO Metro Area",84290,31.45,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Buffalo,NY,"Buffalo-Cheektowaga, NY Metro Area",22180,31.04,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Boston,MA,"Boston-Cambridge-Newton, MA-NH Metro Area",109930,37.53,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Portland,ME,"Portland-South Portland, ME Metro Area",18430,29.78,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Anchorage,AK,"Anchorage, AK Metro Area",10820,36.03,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Seattle,WA,"Seattle-Tacoma-Bellevue, WA Metro Area",102790,39.74,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Portland,OR,"Portland-Vancouver-Hillsboro, OR-WA Metro Area",67670,36.99,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+San Francisco,CA,"San Francisco-Oakland-Fremont, CA Metro Area",99080,41.06,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Los Angeles,CA,"Los Angeles-Long Beach-Anaheim, CA Metro Area",222730,34.83,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+San Diego,CA,"San Diego-Chula Vista-Carlsbad, CA Metro Area",79220,34.04,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Montgomery,AL,"Montgomery, AL Metro Area",6410,22.83,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Hartford,CT,"Hartford-West Hartford-East Hartford, CT Metro Area",22150,32.92,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Dover,DE,"Dover, DE Metro Area",3020,26.06,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Tallahassee,FL,"Tallahassee, FL Metro Area",8570,23.49,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Atlanta,GA,"Atlanta-Sandy Springs-Roswell, GA Metro Area",110610,26.88,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Honolulu,HI,"Urban Honolulu, HI Metro Area",24870,37.61,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Springfield,IL,"Springfield, IL Metro Area",3840,32.94,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Des Moines,IA,"Des Moines-West Des Moines, IA Metro Area",22270,30.24,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Topeka,KS,"Topeka, KS Metro Area",5730,27.2,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Annapolis,MD,"Baltimore-Columbia-Towson, MD Metro Area",61020,29.11,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Lansing,MI,"Lansing-East Lansing, MI Metro Area",9630,29.58,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Saint Paul,MN,"Minneapolis-St. Paul-Bloomington, MN-WI Metro Area",88520,35.63,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Jefferson City,MO,"Jefferson City, MO Metro Area",5470,27.75,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Helena,MT,"Helena, MT Metro Area",2690,29.07,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Lincoln,NE,"Lincoln, NE Metro Area",9420,26.61,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Carson City,NV,"Carson City, NV Metro Area",1720,32.5,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Trenton,NJ,"Trenton-Princeton, NJ Metro Area",5540,38.57,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa; 1 of 3 groups suppressed
+Santa Fe,NM,"Santa Fe, NM Metro Area",3250,24.3,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Albany,NY,"Albany-Schenectady-Troy, NY Metro Area",19690,32.24,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Raleigh,NC,"Raleigh-Cary, NC Metro Area",41980,26.5,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Oklahoma City,OK,"Oklahoma City, OK Metro Area",37020,26.15,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Salem,OR,"Salem, OR Metro Area",14550,28.91,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Harrisburg,PA,"Harrisburg-Carlisle, PA Metro Area",11120,30.34,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Providence,RI,"Providence-Warwick, RI-MA Metro Area",33650,32.47,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Columbia,SC,"Columbia, SC Metro Area",15120,25.14,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Nashville,TN,"Nashville-Davidson--Murfreesboro--Franklin, TN Metro Area",51110,27.33,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Richmond,VA,"Richmond, VA Metro Area",34760,26.52,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Olympia,WA,"Olympia-Lacey-Tumwater, WA Metro Area",5750,35.03,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Charleston,WV,"Charleston, WV Metro Area",5190,28.1,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Madison,WI,"Madison, WI Metro Area",18320,32.83,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Cheyenne,WY,"Cheyenne, WY Metro Area",3490,29.28,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
+Fort Worth,TX,"Dallas-Fort Worth-Arlington, TX Metro Area",184410,26.1,47-0000;45-0000;37-3011,"BLS Occupational Employment and Wage Statistics (OEWS), via the BLS public data API",May 2025,msa
