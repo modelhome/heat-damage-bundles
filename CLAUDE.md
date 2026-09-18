@@ -142,9 +142,10 @@ restating them.
 
 1. ~~Scaffold the repo: top-level boilerplate and the vendored feat skill.~~
    Done 2026-09-17.
-2. Create `modelhome/heat-damage-bundles` on GitHub and push `main` (awaiting
-   John; `/feat run` needs the remote to open its pull request).
-3. `labor-productivity/` (brief 0001): plan written, awaiting review.
+2. ~~Create `modelhome/heat-damage-bundles` on GitHub and push `main`.~~ Done
+   2026-09-17 (public).
+3. `labor-productivity/` (brief 0001): plan written, awaiting John's review.
+   Every decision and its reasoning is in `docs/plans/0001-labor-productivity.md`.
 4. Compose `thermal-indices -> labor-productivity` as a Model Home flow (in the
    platform; there is no Flowfile).
 5. Later siblings: `heat-mortality/`, `cooling-demand/`.
